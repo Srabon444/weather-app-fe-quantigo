@@ -4,7 +4,7 @@ export interface Config {
 }
 
 // For production
-const apiUrl ="https://api.openweathermap.org";
+const apiUrl = "https://api.openweathermap.org";
 
 const config: Config = {
   apiUrl,
