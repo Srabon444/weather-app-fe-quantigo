@@ -7,11 +7,28 @@ import {
   CurrentWeatherSchema,
   ForecastSchema,
   WeatherApiError,
+  CitySuggestion,
 } from '@/types/WeatherTypes';
 
 const WEATHER_API_KEY = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 
 export const weatherApi = {
+  // Get city suggestions using Geocoding API
+  getCitySuggestions: async (query: string): Promise<CitySuggestion[]> => {
+    if (!query.trim() || query.length < 2) return [];
+    
+    try {
+      const response = await get<CitySuggestion[]>(
+        `/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=5&appid=${WEATHER_API_KEY}`
+      );
+      
+      return response;
+    } catch (error: any) {
+      console.error('Failed to fetch city suggestions:', error);
+      return [];
+    }
+  },
+
   getCurrentWeather: async (
     city: string,
     units: 'metric' | 'imperial' = 'metric'
@@ -21,7 +38,7 @@ export const weatherApi = {
         `/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${WEATHER_API_KEY}&units=${units}`
       );
 
-      return CurrentWeatherSchema.parse(response);
+      return response;
     } catch (error: any) {
       if (error.response?.data) {
         const errorData = error.response.data as WeatherApiError;
@@ -40,7 +57,7 @@ export const weatherApi = {
         `/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${WEATHER_API_KEY}&units=${units}`
       );
 
-      return ForecastSchema.parse(response);
+      return response;
     } catch (error: any) {
       if (error.response?.data) {
         const errorData = error.response.data as WeatherApiError;

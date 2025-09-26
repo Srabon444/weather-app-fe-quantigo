@@ -49,12 +49,12 @@ export const WeatherDetails = ({ weather }: WeatherDetailsProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 lg:gap-6 mb-8">
       {details.map((detail) => (
-        <Card key={detail.label} className="bg-gray-800/50 border-gray-600 p-4">
-          <div className="text-center">
-            <p className="text-gray-400 text-sm mb-1">{detail.label}</p>
-            <p className="text-white text-xl font-semibold">{detail.value}</p>
+        <Card key={detail.label} className="bg-[var(--color-neutral-600)] border-[var(--color-neutral-800)] p-4">
+          <div className="text-start">
+            <p className="text-[var(--color-neutral-200)] text-preset-7 mb-6">{detail.label}</p>
+            <p className="text-[var(--color-neutral-0)] font-light text-preset-3">{detail.value}</p>
           </div>
         </Card>
       ))}

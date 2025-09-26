@@ -15,7 +15,7 @@ interface DailyForecastProps {
 export const DailyForecast = ({ forecast }: DailyForecastProps) => {
   const { unitSystem } = useWeatherStore();
 
-  // Group forecast data by date to get daily forecasts
+  // Forecast data by date to get daily forecasts
   const dailyForecasts = forecast.list
     .reduce((acc: any[], item) => {
       const date = item.dt_txt.split(' ')[0];
@@ -61,24 +61,24 @@ export const DailyForecast = ({ forecast }: DailyForecastProps) => {
 
           return (
             <div
-              className="bg-button border-button-border flex flex-col items-center justify-center rounded-xl border p-4"
+              className="flex flex-col items-center justify-center rounded-xl border border-[var(--color-neutral-800)] bg-[var(--color-neutral-600)] p-4"
               key={day.date}
             >
-              <h4 className="text-paragraph text-sm font-normal">{dayName}</h4>
-              <span className="mt-3">
-                <Image
-                  src={weatherIconUrl}
-                  alt={day.conditions[0].description}
-                  className="h-15 w-15"
-                  width={60}
-                  height={60}
-                />
-              </span>
-              <div className="mt-5 flex w-full items-center justify-between">
-                <p className="text-sm font-normal text-white">
+              <h4 className="text-preset-7 font-medium text-white">
+                {dayName}
+              </h4>
+              <Image
+                src={weatherIconUrl}
+                alt={day.conditions[0].description}
+                className="h-15 w-15"
+                width={60}
+                height={60}
+              />
+              <div className="flex w-full items-center justify-between">
+                <p className="text-preset-8 font-medium text-white">
                   {maxTempFormatted}
                 </p>
-                <p className="text-paragraph text-xs font-normal">
+                <p className="text-preset-8 font-medium text-[var(--color-neutral-200)]">
                   {minTempFormatted}
                 </p>
               </div>

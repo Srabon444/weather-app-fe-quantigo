@@ -10,10 +10,12 @@ const initialUnitSystem: UnitSystem = {
 
 export const useWeatherStore = create<WeatherStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       selectedCity: '',
       unitSystem: initialUnitSystem,
       selectedDay: 'Tuesday',
+      _hasHydrated: false,
+      setHasHydrated: (hasHydrated: boolean) => set({ _hasHydrated: hasHydrated }),
       setSelectedCity: (city: string) => set({ selectedCity: city }),
       setUnitSystem: (units: UnitSystem) => set({ unitSystem: units }),
       setSelectedDay: (day: WeekDay) => set({ selectedDay: day }),
@@ -25,6 +27,9 @@ export const useWeatherStore = create<WeatherStore>()(
         unitSystem: state.unitSystem,
         selectedDay: state.selectedDay,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

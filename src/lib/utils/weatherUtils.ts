@@ -1,4 +1,5 @@
-import { 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
   TemperatureUnit, 
   WindSpeedUnit, 
   PrecipitationUnit,
@@ -10,7 +11,6 @@ export const formatTemperatureFromAPI = (
   tempFromAPI: number,
   unit: TemperatureUnit
 ): string => {
-  // API already returns temperature in the requested unit (imperial/metric)
   const symbol = unit === 'celsius' ? '°C' : '°F';
   return `${Math.round(tempFromAPI)}${symbol}`;
 };
@@ -19,16 +19,14 @@ export const formatWindSpeedFromAPI = (
   speedFromAPI: number,
   unit: WindSpeedUnit
 ): string => {
-  // API returns m/s for metric, but we want km/h
-  // API returns mph for imperial
   let speed: number;
   let unitLabel: string;
 
   if (unit === 'kmh') {
-    speed = speedFromAPI * 3.6; // Convert m/s to km/h
+    speed = speedFromAPI * 3.6;
     unitLabel = 'km/h';
   } else {
-    speed = speedFromAPI; // Already in mph for imperial
+    speed = speedFromAPI;
     unitLabel = 'mph';
   }
 
@@ -51,17 +49,13 @@ export const formatPrecipitation = (
 };
 
 export const getPrecipitationAmount = (weather: any): number => {
-  // Get rain amount (1h or 3h)
   const rainAmount = weather.rain?.['1h'] || weather.rain?.['3h'] || 0;
-  // Get snow amount (1h or 3h)
   const snowAmount = weather.snow?.['1h'] || weather.snow?.['3h'] || 0;
   // Return total precipitation
   return rainAmount + snowAmount;
 };
 
 export const getWeatherIconUrl = (iconCode: string): string => {
-  // OpenWeatherMap provides icon codes like "01d", "02n", etc.
-  // We return the full URL to the OpenWeatherMap icon
   return `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
 };
 

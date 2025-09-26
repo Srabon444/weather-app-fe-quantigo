@@ -10,6 +10,16 @@ export const LocationSchema = z.object({
   state: z.string().optional(),
 });
 
+// City suggestion from Geocoding API
+export const CitySuggestionSchema = z.object({
+  name: z.string(),
+  local_names: z.record(z.string(), z.string()).optional(),
+  lat: z.number(),
+  lon: z.number(),
+  country: z.string(),
+  state: z.string().optional(),
+});
+
 export const CurrentWeatherSchema = z.object({
   coord: z.object({
     lon: z.number(),
@@ -143,9 +153,11 @@ export interface WeatherStore {
   selectedCity: string;
   unitSystem: UnitSystem;
   selectedDay: WeekDay;
+  _hasHydrated: boolean;
   setSelectedCity: (city: string) => void;
   setUnitSystem: (units: UnitSystem) => void;
   setSelectedDay: (day: WeekDay) => void;
+  setHasHydrated: (hasHydrated: boolean) => void;
 }
 
 // API Error type
@@ -153,3 +165,6 @@ export interface WeatherApiError {
   cod: string;
   message: string;
 }
+
+// Derived types
+export type CitySuggestion = z.infer<typeof CitySuggestionSchema>;
